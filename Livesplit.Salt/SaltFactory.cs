@@ -15,7 +15,7 @@ namespace LiveSplit.Salt
 
         public string UpdateName => ComponentName;
         public string XMLURL => UpdateURL + "Components/LiveSplit.Salt.Updates.xml";
-        public string UpdateURL => "https://raw.githubusercontent.com/seanpr96/LiveSplit.Salt/master/Livesplit.Salt/";
+        public string UpdateURL => "https://raw.githubusercontent.com/vorban/LiveSplit.Salt/master/Livesplit.Salt/";
         public Version Version => Assembly.GetExecutingAssembly().GetName().Version;
 
         public string ComponentName => "Salt and Sanctuary Autosplitter v" + Version;

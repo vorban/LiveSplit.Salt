@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 
 namespace LiveSplit.Salt
@@ -7,25 +8,26 @@ namespace LiveSplit.Salt
     {
         public static void Main()
         {
-            using SaltMemory mem = new SaltMemory();
-
-            while (!mem.IsHooked)
-            {
-                mem.Hook();
-            }
-
-            string anim = mem.GetPlayerAnim(0);
+            var state = new Model.LiveSplitState(new Model.Run(new Model.Comparisons.StandardComparisonGeneratorsFactory()), null, null, null, null);
+            using SaltComponent comp = new SaltComponent(state, "mine");
+            
 
             while (true)
             {
-                Thread.Sleep(10);
-                string newAnim = mem.GetPlayerAnim(0);
+                Thread.Sleep(500);
 
-                if (anim != newAnim)
-                {
-                    anim = newAnim;
-                    Console.WriteLine(anim);
-                }
+                //mem.UpdateInventory(0);
+                comp.Update(null, state, 0, 0, UI.LayoutMode.Horizontal);
+                //foreach (int i in mem._playerItems.Keys)
+                //{
+                //    Console.WriteLine("ITEM " + i + "(" + mem._playerItems[i].Count + ")");
+                //    foreach (string s in mem._playerItems[i].Keys)
+                //    {
+                //        var item = mem._playerItems[i][s];
+
+                //        Console.WriteLine("\t- " + s + " (" + item.count + ")");
+                //    }
+                //}
             }
         }
     }

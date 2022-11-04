@@ -23,7 +23,7 @@ namespace LiveSplit.Salt
         private readonly ProgramPointer _characters =
             new ProgramPointer("85C07C168B15????????3942047E0B3B4204730E8B448208", 6, 2);
 
-        private readonly Dictionary<int, Dictionary<string, InvLoot>> _playerItems =
+        public readonly Dictionary<int, Dictionary<string, InvLoot>> _playerItems =
             new Dictionary<int, Dictionary<string, InvLoot>>();
         private readonly Dictionary<int, DateTime> _playerItemTimes = new Dictionary<int, DateTime>();
 

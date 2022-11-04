@@ -14,14 +14,32 @@ namespace LiveSplit.Salt
     {
         private static readonly string[] BossItemNames =
         {
-            "dice_dread", "dice_cutqueen", "dice_bull", "dice_alchemist", "dice_fauxjester", "dice_dragon",
-            "dice_torturetree", "dice_pirate", "dice_inquisitor", "dice_hippogriff", "dice_ruinaxe", "dice_lakewitch",
-            "dice_monster", "dice_squiddragon", "dice_nameless", "dice_cloak", "dice_gasbag", "dice_clay", "dice_mummy",
-            "dice_butterfly", "dice_deadking", "dice_broken"
+            "dice_dread",
+            "dice_cutqueen",
+            "dice_bull", // This is Kraekan Cyclops
+            "dice_alchemist",
+            "dice_fauxjester",
+            "dice_dragon",
+            "dice_torturetree",
+            "dice_pirate",
+            "dice_inquisitor",
+            "dice_hippogriff",
+            "dice_ruinaxe",
+            "dice_lakewitch",
+            "dice_monster",
+            "dice_squiddragon",
+            "dice_nameless",
+            "dice_cloak",
+            "dice_gasbag",
+            "dice_clay",
+            "dice_mummy",
+            "dice_butterfly",
+            "dice_deadking",
+            "dice_broken"
         };
 
         private readonly TimerModel _model;
-        private readonly SaltMemory _mem;
+        public readonly SaltMemory _mem;
         private readonly Settings _settings = new Settings();
 
         private readonly Dictionary<string, InvLoot> _bossItems = new Dictionary<string, InvLoot>();
@@ -64,8 +82,11 @@ namespace LiveSplit.Salt
             _mem.Hook();
             if (!_mem.IsHooked)
             {
+                Console.WriteLine("----- Not Hooked yet -----");
                 return;
             }
+
+            Console.WriteLine("Split: " + _model.CurrentState.CurrentSplitIndex);
 
             if (_model.CurrentState.CurrentSplitIndex == -1)
             {
@@ -75,7 +96,7 @@ namespace LiveSplit.Salt
 
             if (_mem.GetGameState() != GameState.Playing)
             {
-                return;
+                //return;
             }
 
             if (_settings.RandomizeSkins && !_playerRandomized)
@@ -119,6 +140,7 @@ namespace LiveSplit.Salt
 
         private void CheckItemSplits()
         {
+            Console.WriteLine("Checking items");
             // Boss items
             foreach (string itemName in BossItemNames)
             {
@@ -133,8 +155,11 @@ namespace LiveSplit.Salt
                     continue;
                 }
 
+                Console.WriteLine("- [" + itemName + "] found");
+
                 if (_bossItems.TryGetValue(itemName, out InvLoot existingItem) && item.count <= existingItem.count)
                 {
+                    Console.WriteLine("\tit was in the inventory last frame");
                     continue;
                 }
 

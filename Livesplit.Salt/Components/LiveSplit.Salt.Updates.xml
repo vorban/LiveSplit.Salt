@@ -1,15 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
-  <update version="0.0.4">
-    <files>
-      <file path="Components/LiveSplit.Salt.dll" status="changed"/>
-    </files>
-    <changelog>
-      <change>
-        Fixed Forgotten King, Ronin Cran, and Dominion ending splits
-      </change>
-    </changelog>
-  </update>
+    <update version="0.0.5">
+        <files>
+            <file path="Components/LiveSplit.Salt.dll" status="changed"/>
+        </files>
+        <changelog>
+            <change>
+                Fixed splitting. Restart of the game may be required between runs. Further testing required.
+            </change>
+        </changelog>
+    </update>
+    <update version="0.0.4">
+        <files>
+            <file path="Components/LiveSplit.Salt.dll" status="changed"/>
+        </files>
+        <changelog>
+            <change>
+                Fixed Forgotten King, Ronin Cran, and Dominion ending splits
+            </change>
+        </changelog>
+    </update>
   <update version="0.0.3">
     <files>
       <file path="Components/LiveSplit.Salt.dll" status="changed"/>

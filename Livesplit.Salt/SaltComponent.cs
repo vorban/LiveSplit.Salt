@@ -39,13 +39,14 @@ namespace LiveSplit.Salt
         };
 
         private readonly TimerModel _model;
-        public readonly SaltMemory _mem;
+        private readonly SaltMemory _mem;
         private readonly Settings _settings = new Settings();
 
         private readonly Dictionary<string, InvLoot> _bossItems = new Dictionary<string, InvLoot>();
         private readonly List<EnemyHealthTracker> _enemyTrackers = new List<EnemyHealthTracker>();
 
         private bool _playerRandomized;
+        private bool _playerOfNewRunLoaded;
 
         public string ComponentName { get; }
 
@@ -63,6 +64,9 @@ namespace LiveSplit.Salt
             {
                 CurrentState = state
             };
+
+            _model.CurrentState.OnStart -= SetPlayerOfNewRunLoaded;
+            _model.CurrentState.OnStart += SetPlayerOfNewRunLoaded;
 
             _model.CurrentState.OnStart -= TimerStart;
             _model.CurrentState.OnStart += TimerStart;
@@ -82,11 +86,8 @@ namespace LiveSplit.Salt
             _mem.Hook();
             if (!_mem.IsHooked)
             {
-                Console.WriteLine("----- Not Hooked yet -----");
                 return;
             }
-
-            Console.WriteLine("Split: " + _model.CurrentState.CurrentSplitIndex);
 
             if (_model.CurrentState.CurrentSplitIndex == -1)
             {
@@ -94,11 +95,21 @@ namespace LiveSplit.Salt
                 return;
             }
 
-            if (_mem.GetGameState() != GameState.Playing)
-            {
-                //return;
-            }
+            //! The GameState is not stored at the same address anymore.
+            //! I now use a different approach to check for the loaded player.
+            //if (_mem.GetGameState() != GameState.Playing)
+            //{
+            //    return;
+            //}
 
+            //! This is the new way of checking for the loaded player. Explanation:
+            if (!_playerOfNewRunLoaded)
+            {
+                CheckPlayerOfNewRunLoaded();
+                return;
+            }
+            
+            //! This is executed on run start + on each split
             if (_settings.RandomizeSkins && !_playerRandomized)
             {
                 _mem.RandomizePlayerAppearance(0);
@@ -135,6 +146,31 @@ namespace LiveSplit.Salt
                 _mem.GetMenuTransitionMode(0) == TransitionMode.AllOut)
             {
                 _model.Start();
+            }
+        }
+
+        private void CheckPlayerOfNewRunLoaded()
+        {
+            // When the game is launched, after the "do not shutdown when you see this icon" screen,
+            // it loads a default player (with animation "fly"). If you load a NG+ save,
+            // and then go back to the menu, your character is still loaded as the current player.
+            // If you then start a new game (thus beginning a new run), the autosplitter would start the timer
+            // because a fade to black transition happens, and then scan for the player's inventory (new boss item = split).
+            // But during the fade to black, the new character isn't loaded yet, and with the latter example,
+            // your NG+ character which is still in memory would trigger all the splits in 0.0s.
+
+            // As of 2022-11-05, I don't have the knowledge nor the resources to figure out the memory address of the
+            // game state (menu / loading / playing).
+            // My solution is simple: When a character is loaded, it has the "prayout" animation (the one when you exit the
+            // level up menu). It is the case when you start a new game, and when you load a save.
+            
+            // So, when we start a run, we set _playerOfNewRunLoaded to false.
+            // Then, when we detect the prayout animation, we set the bool to true.
+            // While the bool is false, split checks are disabled (both inventory, game ending, and boss kill).
+
+            if (_mem.GetPlayerAnim(0) == "prayout" && !_playerOfNewRunLoaded)
+            {
+                _playerOfNewRunLoaded = true;
             }
         }
 
@@ -191,6 +227,11 @@ namespace LiveSplit.Salt
         private void SetPlayerNeedsRandomized(object sender, EventArgs e)
         {
             _playerRandomized = false;
+        }
+
+        private void SetPlayerOfNewRunLoaded(object sender, EventArgs e)
+        {
+            _playerOfNewRunLoaded = false;
         }
 
         public Control GetSettingsControl(LayoutMode mode)

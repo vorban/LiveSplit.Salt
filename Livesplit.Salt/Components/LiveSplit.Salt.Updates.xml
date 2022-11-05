@@ -1,5 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+    <update version="0.1.0">
+        <files>
+            <file path="Components/LiveSplit.Salt.dll" status="changed"/>
+        </files>
+        <changelog>
+            <change>
+                Restarting the game is no longer needed between runs. Condition checking for splits starts after
+                the game properly loads the character (after the intro text).
+            </change>
+        </changelog>
+    </update>
     <update version="0.0.5">
         <files>
             <file path="Components/LiveSplit.Salt.dll" status="changed"/>

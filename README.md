@@ -12,6 +12,7 @@ The original autosplitter did not work anymore. This is my attempt to fix it.
   - [Features](#features)
   - [Ideas that may or may not see the light](#ideas-that-may-or-may-not-see-the-light)
   - [Known issues](#known-issues)
+    - [The run auto-starts, but doesn't autosplit](#the-run-auto-starts-but-doesnt-autosplit)
     - [When starting a new run, it autosplits until the last split.](#when-starting-a-new-run-it-autosplits-until-the-last-split)
 
 ## Installation
@@ -41,14 +42,9 @@ Reopen Livesplit and it should be available.
 
 ## Known issues
 
+### The run auto-starts, but doesn't autosplit
+
+This has been fixed in 0.0.6. Make sure your autosplitter is up-to-date.
 ### When starting a new run, it autosplits until the last split.
 
-**What happens**: If you start a run, then reset (or finish), and start a new one,
-there is a period of time when you start the new game, during which the
-game keeps track of the previous character you played.
-The autosplitter acknowledges the beginning of the new run and autostarts,
-and at the same time it reads all the boss items in the inventory, and splits
-accordingly.
-
-**Fix**: Restarting Livesplit and/or the game seems to do the trick.
-A patch is in progress for this issue.
+This has been fixed in 0.1.0. Make sure your autosplitter is up-to-date.

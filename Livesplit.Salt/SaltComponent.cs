@@ -47,6 +47,7 @@ namespace LiveSplit.Salt
 
         private bool _playerRandomized;
         private bool _playerOfNewRunLoaded;
+        private string _playerPreviousAnimation;
 
         public string ComponentName { get; }
 
@@ -102,7 +103,7 @@ namespace LiveSplit.Salt
             //    return;
             //}
 
-            //! This is the new way of checking for the loaded player. Explanation:
+            //! This is the new way of checking for the loaded player.
             if (!_playerOfNewRunLoaded)
             {
                 CheckPlayerOfNewRunLoaded();
@@ -161,14 +162,12 @@ namespace LiveSplit.Salt
 
             // As of 2022-11-05, I don't have the knowledge nor the resources to figure out the memory address of the
             // game state (menu / loading / playing).
-            // My solution is simple: When a character is loaded, it has the "prayout" animation (the one when you exit the
-            // level up menu). It is the case when you start a new game, and when you load a save.
-            
-            // So, when we start a run, we set _playerOfNewRunLoaded to false.
-            // Then, when we detect the prayout animation, we set the bool to true.
+            // My solution is simple: When a character is loaded, its animation is going to change during gameplay
+            // So, when we start a run, we set _playerOfNewRunLoaded to false and save the current animation.
+            // Then, when we detect a new animation, we set the bool to true.
             // While the bool is false, split checks are disabled (both inventory, game ending, and boss kill).
 
-            if (_mem.GetPlayerAnim(0) == "prayout" && !_playerOfNewRunLoaded)
+            if (_mem.GetPlayerAnim(0) != _playerPreviousAnimation && !_playerOfNewRunLoaded)
             {
                 _playerOfNewRunLoaded = true;
             }
@@ -232,6 +231,7 @@ namespace LiveSplit.Salt
         private void SetPlayerOfNewRunLoaded(object sender, EventArgs e)
         {
             _playerOfNewRunLoaded = false;
+            _playerPreviousAnimation = _mem.GetPlayerAnim(0);
         }
 
         public Control GetSettingsControl(LayoutMode mode)

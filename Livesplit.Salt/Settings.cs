@@ -19,5 +19,6 @@ namespace LiveSplit.Salt
         {
             rndSkinsBox.Checked = RandomizeSkins;
         }
+
     }
 }

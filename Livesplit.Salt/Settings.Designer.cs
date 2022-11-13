@@ -47,7 +47,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.rndSkinsBox);
             this.Name = "Settings";
-            this.Size = new System.Drawing.Size(115, 26);
+            this.Size = new System.Drawing.Size(317, 162);
             this.ResumeLayout(false);
             this.PerformLayout();
 

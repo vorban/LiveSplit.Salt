@@ -4,7 +4,7 @@ using LiveSplit.Salt;
 using LiveSplit.UI.Components;
 
 [assembly: AssemblyTitle("Livesplit.Salt")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Autosplitter for Salt and Sanctuary")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Livesplit.Salt")]
@@ -13,6 +13,6 @@ using LiveSplit.UI.Components;
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]
 [assembly: Guid("7ca19d1e-048e-4883-8526-90fde279573b")]
-[assembly: AssemblyVersion("0.1.0")]
-[assembly: AssemblyFileVersion("0.1.0")]
+[assembly: AssemblyVersion("0.1.1")]
+[assembly: AssemblyFileVersion("0.1.1")]
 [assembly: ComponentFactory(typeof(SaltFactory))]

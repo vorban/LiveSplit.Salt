@@ -1,5 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <updates>
+    <update version="0.1.2">
+        <files>
+            <file path="Components/LiveSplit.Salt.dll" status="changed"/>
+        </files>
+        <changelog>
+            <change>
+                Chaining runs in one session won't break the autosplitter anymore.
+            </change>
+        </changelog>
+    </update>
     <update version="0.1.1">
         <files>
             <file path="Components/LiveSplit.Salt.dll" status="changed"/>

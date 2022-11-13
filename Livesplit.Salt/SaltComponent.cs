@@ -39,7 +39,7 @@ namespace LiveSplit.Salt
         };
 
         private readonly TimerModel _model;
-        private readonly SaltMemory _mem;
+        public readonly SaltMemory _mem;
         private readonly Settings _settings = new Settings();
 
         private readonly Dictionary<string, InvLoot> _bossItems = new Dictionary<string, InvLoot>();
@@ -162,12 +162,10 @@ namespace LiveSplit.Salt
 
             // As of 2022-11-05, I don't have the knowledge nor the resources to figure out the memory address of the
             // game state (menu / loading / playing).
-            // My solution is simple: When a character is loaded, its animation is going to change during gameplay
-            // So, when we start a run, we set _playerOfNewRunLoaded to false and save the current animation.
-            // Then, when we detect a new animation, we set the bool to true.
-            // While the bool is false, split checks are disabled (both inventory, game ending, and boss kill).
 
-            if (_mem.GetPlayerAnim(0) != _playerPreviousAnimation && !_playerOfNewRunLoaded)
+            // My solution is simple: Until the player runs, there is no reason to check for splits.
+
+            if (_mem.GetPlayerAnim(0) == "run" && !_playerOfNewRunLoaded)
             {
                 _playerOfNewRunLoaded = true;
             }
